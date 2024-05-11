@@ -47,7 +47,7 @@ const useSendMessage = () => {
         formData.append("file", file); // Append the file if present
       }
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/messages/send/${
+        `${import.meta.env.VITE_BACKEND_URL}/api/messages/send/${
           selectedConversation._id
         }`,
         {

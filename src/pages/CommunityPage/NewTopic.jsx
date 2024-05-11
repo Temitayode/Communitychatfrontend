@@ -15,7 +15,7 @@ const NewTopic = () => {
   const onSubmit = (data) => postTopic({ ...data, body: content });
   const postTopic = async (payload) => {
     const res = await fetch(
-      `${import.meta.env.backend_url}/api/community/topics`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/community/topics`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -36,7 +36,11 @@ const NewTopic = () => {
   useEffect(() => {
     const getTopicCategory = async () => {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/community/topics/category`
+        `${import.meta.env.VITE_BACKEND_URL}/api/community/topics/category`,
+        {
+          method: "GET",
+          credentials: "include", // This includes cookies and other credentials in the request
+        }
       );
 
       const data = await res.json();

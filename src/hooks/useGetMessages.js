@@ -43,9 +43,13 @@ const useGetMessages = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `${import.meta.env.backend_url}/api/messages/${
+          `${import.meta.env.VITE_BACKEND_URL}/api/messages/${
             selectedConversation._id
-          }`
+          }`,
+          {
+            method: "GET",
+            credentials: "include", // This includes cookies and other credentials in the request
+          }
         );
         const data = await res.json();
         console.log("Fetched messages:", data); // Add this debug log
@@ -65,7 +69,11 @@ const useGetMessages = () => {
   const downloadFile = async (filename) => {
     try {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/files/${filename}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/files/${filename}`,
+        {
+          method: "GET",
+          credentials: "include", // This includes cookies and other credentials in the request
+        }
       );
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);

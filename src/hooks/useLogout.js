@@ -10,7 +10,7 @@ const useLogout = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/auth/logout`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

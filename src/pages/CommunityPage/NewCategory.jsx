@@ -6,7 +6,7 @@ const NewCategory = () => {
 
   const postTopicCategory = async (payload) => {
     const res = await fetch(
-      `${import.meta.env.backend_url}/api/community/topics/category`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/community/topics/category`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -10,7 +10,13 @@ const Bookmarks = () => {
   useEffect(() => {
     const getTopics = async () => {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/community/topics?bookmarks=true`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/community/topics?bookmarks=true`,
+        {
+          method: "GET",
+          credentials: "include", // This includes cookies and other credentials in the request
+        }
       );
 
       const data = await res.json();
@@ -24,7 +30,9 @@ const Bookmarks = () => {
 
   const handleBookmark = async (payload) => {
     const res = await fetch(
-      `${import.meta.env.backend_url}/api/community/topics/bookmarks/toggle`,
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/community/topics/bookmarks/toggle`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

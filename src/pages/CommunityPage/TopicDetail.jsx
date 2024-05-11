@@ -18,7 +18,13 @@ const TopicDetail = () => {
   useEffect(() => {
     const getComments = async () => {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/community/topics/comment/${id}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/community/topics/comment/${id}`,
+        {
+          method: "GET",
+          credentials: "include", // This includes cookies and other credentials in the request
+        }
       );
 
       const data = await res.json();
@@ -34,7 +40,11 @@ const TopicDetail = () => {
   useEffect(() => {
     const getTopic = async () => {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/community/topics/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/community/topics/${id}`,
+        {
+          method: "GET",
+          credentials: "include", // This includes cookies and other credentials in the request
+        }
       );
 
       const data = await res.json();
@@ -51,7 +61,7 @@ const TopicDetail = () => {
       try {
         await fetch(
           `${
-            import.meta.env.backend_url
+            import.meta.env.VITE_BACKEND_URL
           }/api/community/topics/incrementViewCount/${id}`,
           {
             method: "POST",
@@ -73,7 +83,7 @@ const TopicDetail = () => {
   const onSubmit = (data) => postComment({ ...data, topicId: id });
   const postComment = async (payload) => {
     const res = await fetch(
-      `${import.meta.env.backend_url}/api/community/topics/comment`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/community/topics/comment`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -93,7 +103,9 @@ const TopicDetail = () => {
 
   const handleTopicReaction = async (payload) => {
     const res = await fetch(
-      `${import.meta.env.backend_url}/api/community/topics/reactions/toggle`,
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/community/topics/reactions/toggle`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -112,7 +124,7 @@ const TopicDetail = () => {
   const handleTopicCommentReaction = async (payload) => {
     const res = await fetch(
       `${
-        import.meta.env.backend_url
+        import.meta.env.VITE_BACKEND_URL
       }/api/community/topics/comment/reactions/toggle`,
       {
         method: "POST",

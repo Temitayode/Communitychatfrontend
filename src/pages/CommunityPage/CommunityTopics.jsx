@@ -6,12 +6,20 @@ const CommunityTopics = () => {
   const [topics, setTopics] = useState([]);
   const [refetchTopics, setRefetchTopics] = useState(false);
   const [loading, setLoading] = useState(true);
+  console.log(
+    "🚀 ~ handleBookmark ~ import.meta.env.VITE_BACKEND_URL:",
+    import.meta.env.VITE_BACKEND_URL
+  );
 
   useEffect(() => {
     const getTopics = async () => {
       setLoading(true);
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/community/topics`
+        `${import.meta.env.VITE_BACKEND_URL}/api/community/topics`,
+        {
+          method: "GET",
+          credentials: "include", // This includes cookies and other credentials in the request
+        }
       );
 
       const data = await res.json();
@@ -27,7 +35,9 @@ const CommunityTopics = () => {
 
   const handleBookmark = async (payload) => {
     const res = await fetch(
-      `${import.meta.env.backend_url}/api/community/topics/bookmarks/toggle`,
+      `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/community/topics/bookmarks/toggle`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

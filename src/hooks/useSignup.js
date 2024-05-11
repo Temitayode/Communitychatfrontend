@@ -25,7 +25,7 @@ const useSignup = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/auth/signup`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

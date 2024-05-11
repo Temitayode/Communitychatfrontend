@@ -9,7 +9,11 @@ const Contributions = () => {
   useEffect(() => {
     const getTopics = async () => {
       const res = await fetch(
-        `${import.meta.env.backend_url}/api/community/topics/me`
+        `${import.meta.env.VITE_BACKEND_URL}/api/community/topics/me`,
+        {
+          method: "GET",
+          credentials: "include", // This includes cookies and other credentials in the request
+        }
       );
 
       const data = await res.json();
@@ -23,7 +27,7 @@ const Contributions = () => {
 
   const handleDelete = async (payload) => {
     const res = await fetch(
-      `${import.meta.env.backend_url}/api/community/topics`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/community/topics`,
       {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
