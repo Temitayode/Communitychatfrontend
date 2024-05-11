@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.react-input-emoji--input {
+  width: 576px;
+}
+
+/* sidebar.css */
+.sidebar {
+  display: none;
+  /* Hide sidebar by default */
+}
+
+@media (min-width: 440px) {
+
+  /* Show sidebar on screens wider than 640px */
+  .sidebar {
+    display: block;
+  }
+}
