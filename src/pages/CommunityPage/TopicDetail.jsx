@@ -17,7 +17,9 @@ const TopicDetail = () => {
 
   useEffect(() => {
     const getComments = async () => {
-      const res = await fetch(`/api/community/topics/comment/${id}`);
+      const res = await fetch(
+        `${import.meta.env.backend_url}/api/community/topics/comment/${id}`
+      );
 
       const data = await res.json();
       console.log("🚀 ~ getTopicCategory ~ data:", data);
@@ -31,7 +33,9 @@ const TopicDetail = () => {
 
   useEffect(() => {
     const getTopic = async () => {
-      const res = await fetch(`/api/community/topics/${id}`);
+      const res = await fetch(
+        `${import.meta.env.backend_url}/api/community/topics/${id}`
+      );
 
       const data = await res.json();
       if (!data.success) {
@@ -45,12 +49,17 @@ const TopicDetail = () => {
   useEffect(() => {
     const incrementTopicView = async () => {
       try {
-        await fetch(`/api/community/topics/incrementViewCount/${id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        await fetch(
+          `${
+            import.meta.env.backend_url
+          }/api/community/topics/incrementViewCount/${id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
       } catch (error) {
         console.error("Error incrementing topic view:", error);
       }
@@ -63,11 +72,14 @@ const TopicDetail = () => {
 
   const onSubmit = (data) => postComment({ ...data, topicId: id });
   const postComment = async (payload) => {
-    const res = await fetch("/api/community/topics/comment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${import.meta.env.backend_url}/api/community/topics/comment`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await res.json();
     if (!data.success) {
@@ -80,11 +92,14 @@ const TopicDetail = () => {
   };
 
   const handleTopicReaction = async (payload) => {
-    const res = await fetch("/api/community/topics/reactions/toggle", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${import.meta.env.backend_url}/api/community/topics/reactions/toggle`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await res.json();
     if (!data.success) {
@@ -95,11 +110,16 @@ const TopicDetail = () => {
     setRefetch(!refetch);
   };
   const handleTopicCommentReaction = async (payload) => {
-    const res = await fetch("/api/community/topics/comment/reactions/toggle", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${
+        import.meta.env.backend_url
+      }/api/community/topics/comment/reactions/toggle`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await res.json();
     if (!data.success) {

@@ -8,7 +8,9 @@ const Contributions = () => {
 
   useEffect(() => {
     const getTopics = async () => {
-      const res = await fetch("/api/community/topics/me");
+      const res = await fetch(
+        `${import.meta.env.backend_url}/api/community/topics/me`
+      );
 
       const data = await res.json();
       if (!data.success) {
@@ -20,11 +22,14 @@ const Contributions = () => {
   }, [refetchTopics]);
 
   const handleDelete = async (payload) => {
-    const res = await fetch("/api/community/topics", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${import.meta.env.backend_url}/api/community/topics`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await res.json();
     if (!data.success) {

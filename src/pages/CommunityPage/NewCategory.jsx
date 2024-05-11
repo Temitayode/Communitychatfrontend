@@ -5,11 +5,14 @@ const NewCategory = () => {
   const onSubmit = (data) => postTopicCategory(data);
 
   const postTopicCategory = async (payload) => {
-    const res = await fetch("/api/community/topics/category", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${import.meta.env.backend_url}/api/community/topics/category`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await res.json();
     if (!data.success) {

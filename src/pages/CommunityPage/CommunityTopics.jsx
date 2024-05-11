@@ -10,7 +10,9 @@ const CommunityTopics = () => {
   useEffect(() => {
     const getTopics = async () => {
       setLoading(true);
-      const res = await fetch("/api/community/topics");
+      const res = await fetch(
+        `${import.meta.env.backend_url}/api/community/topics`
+      );
 
       const data = await res.json();
       if (!data.success) {
@@ -24,11 +26,14 @@ const CommunityTopics = () => {
   }, [refetchTopics]);
 
   const handleBookmark = async (payload) => {
-    const res = await fetch("/api/community/topics/bookmarks/toggle", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${import.meta.env.backend_url}/api/community/topics/bookmarks/toggle`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await res.json();
     if (!data.success) {

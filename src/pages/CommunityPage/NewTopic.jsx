@@ -14,11 +14,14 @@ const NewTopic = () => {
 
   const onSubmit = (data) => postTopic({ ...data, body: content });
   const postTopic = async (payload) => {
-    const res = await fetch("/api/community/topics", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(
+      `${import.meta.env.backend_url}/api/community/topics`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     const data = await res.json();
     if (!data.success) {
@@ -32,7 +35,9 @@ const NewTopic = () => {
 
   useEffect(() => {
     const getTopicCategory = async () => {
-      const res = await fetch("/api/community/topics/category");
+      const res = await fetch(
+        `${import.meta.env.backend_url}/api/community/topics/category`
+      );
 
       const data = await res.json();
       console.log("🚀 ~ getTopicCategory ~ data:", data);

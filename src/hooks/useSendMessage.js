@@ -1,67 +1,70 @@
 import { useState } from "react";
-import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
+import useConversation from "../zustand/useConversation";
 
 const useSendMessage = () => {
-	const [loading, setLoading] = useState(false);
-	const { messages, setMessages, selectedConversation } = useConversation();
+  const [loading, setLoading] = useState(false);
+  const { messages, setMessages, selectedConversation } = useConversation();
 
-	// const sendMessage = async (message) => {
-	// 	setLoading(true);
-	// 	try {
+  // const sendMessage = async (message) => {
+  // 	setLoading(true);
+  // 	try {
 
-	// 		// file code
-	// 		const formData = new FormData();
-    //         formData.append("message", message);
-    //         if (file) {
-    //             formData.append("file", file);
-    //         }
-	// 		// end file code
+  // 		// file code
+  // 		const formData = new FormData();
+  //         formData.append("message", message);
+  //         if (file) {
+  //             formData.append("file", file);
+  //         }
+  // 		// end file code
 
-	// 		const res = await fetch(`/api/messages/send/${selectedConversation._id}`, {
-	// 			method: "POST",
-    //             body: formData,
-	// 			// headers: {
-	// 			// 	"Content-Type": "application/json",
-					
-	// 			// },
-	// 			// body: JSON.stringify({ message, formData }),
-	// 		});
-	// 		const data = await res.json();
-	// 		if (data.error) throw new Error(data.error);
+  // 		const res = await fetch(`/api/messages/send/${selectedConversation._id}`, {
+  // 			method: "POST",
+  //             body: formData,
+  // 			// headers: {
+  // 			// 	"Content-Type": "application/json",
 
-	// 		setMessages([...messages, data]);
-	// 	} catch (error) {
-	// 		toast.error(error.message);
-	// 	} finally {
-	// 		setLoading(false);
-	// 	}
-	// };
+  // 			// },
+  // 			// body: JSON.stringify({ message, formData }),
+  // 		});
+  // 		const data = await res.json();
+  // 		if (data.error) throw new Error(data.error);
 
+  // 		setMessages([...messages, data]);
+  // 	} catch (error) {
+  // 		toast.error(error.message);
+  // 	} finally {
+  // 		setLoading(false);
+  // 	}
+  // };
 
-	const sendMessage = async (message, file) => {
-        setLoading(true);
-        try {
-            const formData = new FormData();
-            formData.append("message", message); // Append the message
-            if (file) {
-                formData.append("file", file); // Append the file if present
-            }
-            const res = await fetch(`/api/messages/send/${selectedConversation._id}`, {
-                method: "POST",
-                body: formData,
-            });
-            const data = await res.json();
-            if (data.error) throw new Error(data.error);
-            setMessages([...messages, data]);
-        } catch (error) {
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
+  const sendMessage = async (message, file) => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("message", message); // Append the message
+      if (file) {
+        formData.append("file", file); // Append the file if present
+      }
+      const res = await fetch(
+        `${import.meta.env.backend_url}/api/messages/send/${
+          selectedConversation._id
+        }`,
+        {
+          method: "POST",
+          body: formData,
         }
-    };
+      );
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setMessages([...messages, data]);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-	return { sendMessage, loading };
+  return { sendMessage, loading };
 };
 export default useSendMessage;
