@@ -9,6 +9,7 @@ const NewCategory = () => {
       `${import.meta.env.VITE_BACKEND_URL}/api/community/topics/category`,
       {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       }

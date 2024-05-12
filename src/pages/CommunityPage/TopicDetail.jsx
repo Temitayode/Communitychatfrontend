@@ -65,6 +65,7 @@ const TopicDetail = () => {
           }/api/community/topics/incrementViewCount/${id}`,
           {
             method: "POST",
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
             },
@@ -86,6 +87,7 @@ const TopicDetail = () => {
       `${import.meta.env.VITE_BACKEND_URL}/api/community/topics/comment`,
       {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       }
@@ -108,6 +110,7 @@ const TopicDetail = () => {
       }/api/community/topics/reactions/toggle`,
       {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       }
@@ -128,6 +131,7 @@ const TopicDetail = () => {
       }/api/community/topics/comment/reactions/toggle`,
       {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       }

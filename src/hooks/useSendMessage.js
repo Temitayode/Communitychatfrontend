@@ -52,6 +52,7 @@ const useSendMessage = () => {
         }`,
         {
           method: "POST",
+          credentials: "include",
           body: formData,
         }
       );
