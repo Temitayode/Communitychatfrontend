@@ -30,6 +30,7 @@ const Contributions = () => {
       `${import.meta.env.VITE_BACKEND_URL}/api/community/topics`,
       {
         method: "DELETE",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       }

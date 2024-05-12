@@ -5,12 +5,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true,
     port: 3000,
-    proxy: {
-      "/api": {
-        // target: "http://localhost:5000",
-        target: "https://mern-chat-and-forum-application-api.onrender.com",
-      },
-    },
   },
 });
