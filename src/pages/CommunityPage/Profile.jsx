@@ -10,6 +10,7 @@ const Profile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const [imageUrl, setImageUrl] = useState(""); // State to store uploaded image URL
+  const [user, setUser] = useState(); // State to store uploaded image URL
 
   useEffect(() => {
     const getUser = async () => {
@@ -18,12 +19,20 @@ const Profile = () => {
         { withCredentials: true }
       );
       const userData = user.data.data;
+      setUser(userData);
       console.log("User data:", userData);
       // setUser(userData); // Set user data to state
       // Set input field values with user data using setValue
       setValue("fullName", userData.fullName);
       setValue("username", userData.username);
       setValue("gender", userData.gender);
+      setValue("designation", userData.designation);
+      setValue(
+        "DateOfBirth",
+        userData.DateOfBirth ? userData.DateOfBirth.slice(0, 10) : ""
+      );
+      setValue("phoneNumber", userData.phoneNumber);
+      setValue("contactAddress", userData.contactAddress);
     };
     getUser();
   }, [refetch, setValue]);
@@ -57,19 +66,6 @@ const Profile = () => {
             console.error("Error uploading image:", error);
             alert("Error uploading image. Please try again.");
           });
-
-        // const imgBBResponse = await axios.post(imgBBUrl, selectedImage);
-
-        // const imgBBData = await imgBBResponse.json();
-        // if (!imgBBData.success) {
-        //   console.error(
-        //     "Error uploading image to ImgBB:",
-        //     imgBBData.error.message
-        //   );
-        //   return; // Handle ImgBB upload error (optional: display error message to user)
-        // }
-
-        // setImageUrl(imgBBData.data.display_url); // Set the uploaded image URL
       } catch (error) {
         console.error("Error uploading profile picture:", error);
         return; // Handle error (optional: display error message to user)
@@ -96,7 +92,7 @@ const Profile = () => {
       setRefetch(!refetch);
     } catch (error) {
       console.error("Error updating profile:", error);
-      toast.error(error.data.data.msg);
+      toast.error(error.response.data.msg);
     }
   };
 
@@ -148,7 +144,6 @@ const Profile = () => {
               name="fullName"
               type="text"
               className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              required
               {...register("fullName")}
             />
           </div>
@@ -163,8 +158,35 @@ const Profile = () => {
               name="username"
               type="text"
               className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              required
               {...register("username")}
+            />
+          </div>
+          <div className="mb-5">
+            <label
+              htmlFor="phoneNumber"
+              className="block mb-2 text-sm font-medium "
+            >
+              Phone Number
+            </label>
+            <input
+              name="phoneNumber"
+              type="text"
+              className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              {...register("phoneNumber")}
+            />
+          </div>
+          <div className="mb-5">
+            <label
+              htmlFor="designation"
+              className="block mb-2 text-sm font-medium "
+            >
+              Designation
+            </label>
+            <input
+              name="designation"
+              type="text"
+              className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              {...register("designation")}
             />
           </div>
           <div className="mb-5">
@@ -175,25 +197,28 @@ const Profile = () => {
               name="gender"
               type="text"
               className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              required
               {...register("gender")}
             >
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
           </div>
-          {/* <div className="mb-5">
-          <label htmlFor="name" className="block mb-2 text-sm font-medium ">
-            Password
-          </label>
-          <input
-            name="password"
-            type="text"
-            className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            required
-            {...register("password")}
-          />
-        </div> */}
+          <div className="mb-5">
+            <label
+              htmlFor="DateOfBirth"
+              className="block mb-2 text-sm font-medium "
+            >
+              Date of Birth
+            </label>
+            <input
+              name="DateOfBirth"
+              // value={user.DateOfBirth}
+              type="date"
+              className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              {...register("DateOfBirth")}
+            />
+          </div>
+
           <div className="mb-5">
             <label
               htmlFor="profilePic"
@@ -207,6 +232,20 @@ const Profile = () => {
               className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               {...register("profilePic")}
               onChange={handleChange}
+            />
+          </div>
+          <div className="mb-5">
+            <label
+              htmlFor="contactAddress"
+              className="block mb-2 text-sm font-medium "
+            >
+              Contact Address
+            </label>
+            <textarea
+              name="contactAddress"
+              rows={3}
+              className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              {...register("contactAddress")}
             />
           </div>
 
@@ -237,7 +276,6 @@ const Profile = () => {
               name="oldPassword"
               type="password"
               className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              required
               {...register("oldPassword")}
             />
           </div>
@@ -252,7 +290,6 @@ const Profile = () => {
               name="newPassword"
               type="password"
               className="bg-gray-50 border border-gray-[#18BB0C] text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-              required
               {...register("newPassword")}
             />
           </div>
