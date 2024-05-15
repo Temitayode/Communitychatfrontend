@@ -14,11 +14,13 @@ import CommunityTopics from "./pages/CommunityPage/CommunityTopics";
 import Contributions from "./pages/CommunityPage/Contributions";
 import NewCategory from "./pages/CommunityPage/NewCategory";
 import NewTopic from "./pages/CommunityPage/NewTopic";
+import Profile from "./pages/CommunityPage/Profile";
 import TopicDetail from "./pages/CommunityPage/TopicDetail";
 import Bookmarks from "./pages/CommunityPage/bookmarks";
 
 const App = () => {
   const { authUser } = useAuthContext();
+  console.log("🚀 ~ App ~ authUser:", authUser);
   return (
     <>
       <div className="">
@@ -118,6 +120,18 @@ const App = () => {
               authUser ? (
                 <CommunityLayout>
                   <Contributions />
+                </CommunityLayout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/community/profile"
+            element={
+              authUser ? (
+                <CommunityLayout>
+                  <Profile />
                 </CommunityLayout>
               ) : (
                 <Navigate to="/login" />

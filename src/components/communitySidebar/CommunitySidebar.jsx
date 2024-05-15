@@ -1,9 +1,8 @@
 import { BiLogOut } from "react-icons/bi";
 import { CiBellOn, CiBookmark, CiStar } from "react-icons/ci";
 import { FiBook, FiUser, FiUsers } from "react-icons/fi";
-import { GoGear } from "react-icons/go";
-import { IoHelpCircleOutline, IoHomeOutline } from "react-icons/io5";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { IoHomeOutline } from "react-icons/io5";
+import { NavLink, useLocation } from "react-router-dom";
 import useLogout from "../../hooks/useLogout";
 
 const CommunitySidebar = ({ toggleMenu }) => {
@@ -34,7 +33,7 @@ const CommunitySidebar = ({ toggleMenu }) => {
       </div>
 
       <div>
-        <Link to={"/help"}>
+        {/* <Link to={"/help"}>
           <div
             onClick={toggleMenu}
             className={`${
@@ -59,7 +58,7 @@ const CommunitySidebar = ({ toggleMenu }) => {
             </span>
             <span>Settings</span>
           </div>
-        </Link>
+        </Link> */}
         <div
           onClick={() => {
             logout();
@@ -67,7 +66,7 @@ const CommunitySidebar = ({ toggleMenu }) => {
           }}
           className={`${
             pathname === "/settings" && "text-[#18BB0C]"
-          } flex items-center font-medium space-x-4 text-[#999999] my-5`}
+          } flex items-center cursor-pointer font-medium space-x-4 text-[#999999] my-5`}
         >
           <span>
             <BiLogOut color="red" size={24} />

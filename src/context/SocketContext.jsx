@@ -15,14 +15,11 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io(
-        "https://mern-chat-and-forum-application-api.onrender.com",
-        {
-          query: {
-            userId: authUser._id,
-          },
-        }
-      );
+      const socket = io(import.meta.env.VITE_BACKEND_URL, {
+        query: {
+          userId: authUser._id,
+        },
+      });
 
       setSocket(socket);
 
