@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import DeleteAccountModal from "../../components/DeleteAccountModal/DeleteAccountModal";
 import { useAuthContext } from "../../context/AuthContext";
 
 const Profile = () => {
@@ -9,8 +10,8 @@ const Profile = () => {
   const { register, handleSubmit, setValue, reset } = useForm();
   const [selectedImage, setSelectedImage] = useState(null);
   const [refetch, setRefetch] = useState(false);
-  const [imageUrl, setImageUrl] = useState(""); // State to store uploaded image URL
-  const [user, setUser] = useState(); // State to store uploaded image URL
+  const [imageUrl, setImageUrl] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -19,10 +20,7 @@ const Profile = () => {
         { withCredentials: true }
       );
       const userData = user.data.data;
-      setUser(userData);
-      console.log("User data:", userData);
-      // setUser(userData); // Set user data to state
-      // Set input field values with user data using setValue
+
       setValue("fullName", userData.fullName);
       setValue("username", userData.username);
       setValue("gender", userData.gender);
@@ -116,6 +114,33 @@ const Profile = () => {
         reset();
         localStorage.removeItem("chat-user");
         setAuthUser(null);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error(error.response.data.msg);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/deleteAccount`,
+
+        {
+          withCredentials: true, // Include credentials for authenticated requests
+        }
+      );
+      console.log("🚀 ~ handleDeleteAccount ~ response:", response);
+
+      // if (!response.data.success) {
+      //   console.error(response.data.data.msg); // Handle errors from the server
+      //   return toast.error(response.data.data.msg);
+      // }
+      if (response.data.success) {
+        toast.success(response.data.msg);
+        localStorage.removeItem("chat-user");
+        setAuthUser(null);
+        setIsModalOpen(false);
       }
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -301,6 +326,19 @@ const Profile = () => {
             Submit
           </button>
         </form>
+      </div>
+      <div className="flex items-center justify-center my-5">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-red-500 px-5 py-2 rounded-lg text-white"
+        >
+          Delete Account
+        </button>
+        <DeleteAccountModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onDelete={handleDeleteAccount}
+        />
       </div>
     </section>
   );
