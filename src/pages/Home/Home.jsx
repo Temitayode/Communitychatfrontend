@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import image1 from "../../assets/1.png";
 import image2 from "../../assets/2.png";
 import image3 from "../../assets/3.png";
@@ -11,6 +11,27 @@ import { Link } from "react-router-dom";
 import Sidebar from "../../components/sidebar/sidebar";
 
 const Home = () => {
+
+  const [topics, setTopics] = useState([]);
+
+  const getTopics = async () => {
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/community/topics`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+    const data = await res.json();
+    setTopics(data.data);
+  };
+
+  useEffect(() => {
+    getTopics();
+  }, [])
+
+  console.log(topics, 'topics from home page');
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 my-[100px] mx-auto max-w-6xl">
       <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300 rounded-lg">
@@ -30,13 +51,29 @@ const Home = () => {
         </div>
       </div>
 
-      <Link to={"/community/topics"}>
+      <div>
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300 rounded-lg">
           <div className="p-3 border border-gray-300 rounded-lg">
-            Community topics
+            {topics && topics.slice(0, 4).map(tp =>
+              <div class="flex justify-between items-center">
+                <div className="flex flex-row justify-start gap-2 items-center py-2">
+                  <img class="w-16 h-16 rounded-full shadow-lg" src={tp.author.profilePic} alt="Bonnie image" />
+                  <div>
+                    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+                  </div>
+                </div>
+                <div className=" bg-green-500 py-3 text-white px-3 rounded-lg">Read Now</div>
+              </div>
+            )}
+          </div>
+          <div className="w-full flex justify-end px-6 py-2 font-bold">
+            <Link to={"/community/topics"}>
+              Read More
+            </Link>
           </div>
         </div>
-      </Link>
+      </div>
 
       <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300 rounded-lg">
         <div className="p-3 border border-gray-300 rounded-lg flex justify-center">

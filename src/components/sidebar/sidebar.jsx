@@ -10,7 +10,7 @@ const Sidebar = ({ toggleSidebar }) => {
 
   return (
     <div
-      className="border  h-full overflow-y-auto border-gray-300 rounded-lg w-[310px] sm:w-[360px]  p-4 flex flex-col"
+      className="border h-full overflow-y-auto rounded-lg w-full p-4 flex flex-col"
       onClick={handleClick}
     >
       <SearchInput />
