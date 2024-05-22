@@ -63,7 +63,7 @@ const GalleryDetails = () => {
       <div className="border-2 border-[#18BB0C] rounded-xl p-5 mx-5">
         <div className="border-2 rounded-lg px-8 py-9 bg-white">
           <Row gutter={[24, 16]}>
-          {galleryData.slice(0, 4)?.map((item, index) => {
+            {galleryData.slice(0, 4)?.map((item, index) => {
               const key = `col-${index}`;
               return (
                 <Col
@@ -77,10 +77,7 @@ const GalleryDetails = () => {
                   <Link to={`/community/galleryDetails/${item?._id}`}>
                     <div className="card card-compact rounded w-full  shadow-xl">
                       <figure>
-                        <img
-                          src={item?.image}
-                          className="rounded-lg"
-                        />
+                        <img src={item?.image} className="rounded-lg" />
                       </figure>
                     </div>
                   </Link>
@@ -89,14 +86,21 @@ const GalleryDetails = () => {
             })}
           </Row>
         </div>
-        <div className="mt-16 mb-4">
-          <div className="">
-            <img
-              src={gallerySingleData?.image}
-              className="w-full rounded-2xl"
-            />
+        {gallerySingleData?.image && (
+          <div className="mt-10 mb-4">
+            <div className="">
+              <img
+                src={gallerySingleData?.image}
+                className="w-full rounded-2xl"
+              />
+            </div>
           </div>
-        </div>
+        )}
+        {gallerySingleData?.video && (
+          <div className="mt-10 mb-4">
+            <video controls src={gallerySingleData?.video} className="w-full aspect-video rounded-2xl shadow-2xl" />
+          </div>
+        )}
         <div className="border-2 rounded-lg px-8 py-9 bg-white">
           {gallerySingleData?.description}
         </div>

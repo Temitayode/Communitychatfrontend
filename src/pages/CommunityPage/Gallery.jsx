@@ -4,6 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
+import { FaRegPlayCircle } from "react-icons/fa";
 
 const Gallery = () => {
   const { authUser } = useAuthContext();
@@ -24,9 +25,9 @@ const Gallery = () => {
           credentials: "include",
         }
       );
-      
+
       const data = await res.json();
-      setDescriptions("")
+      setDescriptions("");
       setFile(null);
       setGalleryData(data);
     } catch (error) {
@@ -41,36 +42,58 @@ const Gallery = () => {
       message.error("No file selected for upload.");
       return;
     }
+
+    const maxFileSize = 10 * 1024 * 1024;
+    if (file.type.startsWith("video/") && file.size > maxFileSize) {
+      message.error("Video file size exceeds the 10MB limit.");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("file", file);
     formData.append("description", descriptions);
 
+    let uploadUrl = "";
+    let successMessage = "";
+
+    if (file.type.startsWith("image/")) {
+      formData.append("file", file); // for image
+      uploadUrl = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/community/gallery/image/upload/${authUser?._id}`;
+      successMessage = "Image Uploaded Successfully!";
+    } else if (file.type.startsWith("video/")) {
+      formData.append("video", file); // for video
+      uploadUrl = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/api/community/gallery/video/upload/${authUser?._id}`;
+      successMessage = "Video Uploaded Successfully!";
+    } else {
+      message.error("Unsupported file type.");
+      return;
+    }
+
     try {
-      const res = await fetch(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/community/gallery/image/upload/${authUser?._id}`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        }
-      );
+      const res = await fetch(uploadUrl, {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
 
       const data = await res.json();
+      console.log("🚀 ~ upload ~ data:", data);
 
       if (data.success) {
-        message.success("Image Uploaded Successfully!");
-        setDescriptions("")
+        message.success(successMessage);
+        setDescriptions("");
         setFile(null);
         fetchGalleryData();
         document.getElementById("my_modal_5").close();
       } else {
-        message.error(data.message || "Failed to upload Image");
+        message.error(data.message || "Failed to upload file");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
-      message.error("Failed to upload Image");
+      console.error("Error uploading file:", error);
+      message.error("Failed to upload file");
     }
   };
   return (
@@ -88,13 +111,14 @@ const Gallery = () => {
         <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-5 text-center">
-              Uplaod Image!
+              Uplaod Image or Video!
             </h3>
             <div className="flex flex-col gap-5">
               <input
                 type="file"
                 className="file-input file-input-primary "
                 onChange={(e) => setFile(e.target.files[0])}
+                placeholder="Upload Image or Video(Max:10MB)"
               />
               <label className="form-control">
                 <textarea
@@ -137,16 +161,34 @@ const Gallery = () => {
                   lg={{ span: 6 }}
                   xl={{ span: 6 }}
                 >
-                  <Link to={`/community/galleryDetails/${item?._id}`}>
-                    <div className="card card-compact rounded w-full  shadow-xl">
-                      <figure>
-                        <img
-                          src={item?.image}
-                          className="rounded-lg"
-                        />
-                      </figure>
-                    </div>
-                  </Link>
+                  {item?.image && (
+                    <Link to={`/community/galleryDetails/${item?._id}`}>
+                      <div className="card card-compact  w-full  shadow-xl max-w-64 ">
+                        <figure>
+                          <img src={item?.image} className="rounded-xl object-cover" />
+                        </figure>
+                      </div>
+                    </Link>
+                  )}
+                  {item?.video && (
+                    <Link to={`/community/galleryDetails/${item?._id}`}>
+                      <div className="card card-compact bg-base-content shadow-xl image-full bg-none max-w-64 max-h-36">
+                        <figure>
+                          <img
+                            src="https://i.ibb.co/CMLfZkc/pexels-inspiredimages-157543.jpg"
+                            className="rounded-lg w-full object-cover"
+                          />
+                        </figure>
+                        <div className="card-body items-center justify-center">
+                          <FaRegPlayCircle
+                            size="2.5em"
+                            className="text-white hover:text-green-500"
+                            style={{ cursor: "pointer" }}
+                          />
+                        </div>
+                      </div>
+                    </Link>
+                  )}
                 </Col>
               );
             })}
