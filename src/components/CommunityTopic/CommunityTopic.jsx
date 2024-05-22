@@ -22,7 +22,7 @@ const CommunityTopic = (props) => {
   const navigate = useNavigate();
 
   return (
-    <div className="shadow-lg rounded-lg p-6">
+    <div className="rounded-lg p-6 border ">
       <div className="flex items-center justify-between">
         <h2 className="font-bold text-xl">{title}</h2>
 

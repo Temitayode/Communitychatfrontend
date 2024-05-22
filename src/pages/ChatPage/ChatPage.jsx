@@ -9,33 +9,30 @@ const Home = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  console.log(isSidebarOpen, 'isjhfgjhgxfhgzxghhkgxfh');
+
   return (
-    <div className="container mx-auto">
-      <div className="mt-24">
-        <TiMessages
-          className="text-3xl cursor-pointer block lg:hidden"
-          onClick={() => toggleSidebar()}
-        />
-      </div>
+    <div className="container mx-auto max-w-5xl">
       <div
         className="flex  lg:max-w-6xl mx-auto gap-5 mt-2 lg:mt-32  rounded-lg  max-w-6xl "
         style={{ height: "calc(100vh - 200px)" }}
       >
         {/* Sidebar */}
         <div
-          className={`w-full !h-full  ${
-            isSidebarOpen ? "" : "hidden lg:block"
-          } `}
+          className={`w-full !h-full  ${isSidebarOpen ? "" : "hidden lg:block"
+            } `}
         >
           <Sidebar toggleSidebar={toggleSidebar} />
         </div>
-        {/* Message Container */}
+      </div>
+      <div className="mx-auto w-fit">
         <div
-          className={`w-full !h-full  ${
-            isSidebarOpen ? "hidden lg:block" : ""
-          }`}
+          onClick={() => setIsSidebarOpen(false)}
+          className={`fixed z-[100] flex items-center justify-center ${isSidebarOpen ? 'visible opacity-100' : 'invisible opacity-0'} inset-0 bg-black/20 backdrop-blur-sm duration-100 dark:bg-transparent`}
         >
-          <MessageContainer onMenuClick={toggleSidebar} />
+          <div onClick={(e_) => e_.stopPropagation()} className={`text- absolute h-screen rounded-lg bg-white p-6 drop-shadow-lg dark:bg-gray-800 dark:text-white ${isSidebarOpen ? 'scale-1 opacity-1 duration-300' : 'scale-0 opacity-0 duration-150'}`}>
+            <MessageContainer onMenuClick={toggleSidebar} />
+          </div>
         </div>
       </div>
     </div>

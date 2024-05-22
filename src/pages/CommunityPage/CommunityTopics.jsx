@@ -11,6 +11,8 @@ const CommunityTopics = () => {
     import.meta.env.VITE_BACKEND_URL
   );
 
+  console.log(topics, 'all topics here');
+
   useEffect(() => {
     const getTopics = async () => {
       setLoading(true);
@@ -35,8 +37,7 @@ const CommunityTopics = () => {
 
   const handleBookmark = async (payload) => {
     const res = await fetch(
-      `${
-        import.meta.env.VITE_BACKEND_URL
+      `${import.meta.env.VITE_BACKEND_URL
       }/api/community/topics/bookmarks/toggle`,
       {
         method: "POST",

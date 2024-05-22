@@ -10,11 +10,13 @@ const Conversation = ({ conversation, lastIdx, emoji, toggleSidebar }) => {
 
   console.log("onlineUsers:", onlineUsers);
   console.log("isOnline:", isOnline);
+  console.log(selectedConversation);
+  // <MessageContainer onMenuClick={toggleSidebar} />
 
   return (
     <>
       <div
-        className={`flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer
+        className={`flex gap-2 border items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer
             ${isSelected ? "bg-sky-500" : ""}
             `}
         onClick={() => {
